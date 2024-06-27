@@ -1,3 +1,4 @@
+import 'package:adopsian_project_uas/screen/browse.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,10 +29,15 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 234, 190)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+       routes: {
+        'main': (context) => MyApp(),
+        'browse': (context) => Browse(),
+        // 'propose': (context) => Propose()
+      },
     );
   }
 }
