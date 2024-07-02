@@ -3,12 +3,14 @@ import 'package:adopsian_project_uas/screen/browse.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String active_user = "";
+String username_active_user = "";
+String email_active_user = "";
 
 void doLogout() async {
   //later, we use web service here to check the user id and password
   final prefs = await SharedPreferences.getInstance();
-  active_user = "";
+  username_active_user = "";
+  email_active_user = "";
   prefs.remove("user_id");
   main();
 }
@@ -16,6 +18,8 @@ void doLogout() async {
 Future<String> checkUser() async {
   final prefs = await SharedPreferences.getInstance();
   String user_id = prefs.getString("user_id") ?? '';
+  username_active_user = prefs.getString("user_username") ?? '';
+  email_active_user = prefs.getString("user_email") ?? '';
   return user_id;
 }
 
@@ -25,7 +29,6 @@ void main() {
     if (result == '')
       runApp(MyLogin());
     else {
-      active_user = result;
       runApp(MyApp());
     }
   });
@@ -70,47 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("HOME"),
+        title: Text("Home"),
       ),
-      // floatingActionButton: myFAB(),
-      // bottomNavigationBar: MyBNB(),
       drawer:
           myDrawer(), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-
-  // FloatingActionButton myFAB() {
-  //   return FloatingActionButton(
-  //     onPressed: 
-  //     tooltip:
-  //     child: const Icon(Icons.add),
-  //   );
-  // }
-
-  // BottomNavigationBar MyBNB() {
-  //   return BottomNavigationBar(
-  //       currentIndex: _currentIndex,
-  //       onTap: (int index){
-  //         setState(() {
-  //           _currentIndex = index;
-  //         });
-  //       },
-  //       fixedColor: const Color.fromARGB(255, 0, 125, 150),
-  //       items: [
-  //         BottomNavigationBarItem(
-  //           label: "Home",
-  //           icon: Icon(Icons.home),
-  //         ),
-  //         BottomNavigationBarItem(
-  //           label: "Search",
-  //           icon: Icon(Icons.search),
-  //         ),
-  //         BottomNavigationBarItem(
-  //           label: "History",
-  //           icon: Icon(Icons.history),
-  //         ),
-  //       ]);
-  // }
 
   Drawer myDrawer() {
     return Drawer(
@@ -118,8 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
       child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
-              accountName: Text("Jennie"),
-              accountEmail: Text(active_user),
+              accountName: Text(username_active_user),
+              accountEmail: Text(email_active_user),
               currentAccountPicture: CircleAvatar(
                   backgroundImage: NetworkImage("https://i.pravatar.cc/150"))),
           ListTile(
@@ -141,10 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
             }),
             Divider(height: 10),
             ListTile(
-            title: new Text(active_user != "" ? "Logout" : "Login"),
+            title: new Text(username_active_user != "" ? "Logout" : "Login"),
             leading: new Icon(Icons.login),
             onTap: (){
-              active_user != "" ? doLogout() : Navigator.popAndPushNamed(context, 'login');
+              username_active_user != "" ? doLogout() : Navigator.popAndPushNamed(context, 'login');
             })
         ],
       ),

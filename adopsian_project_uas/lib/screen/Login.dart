@@ -39,8 +39,9 @@ class _LoginState extends State<Login> {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString("username", _username);
-        prefs.setString("email", json['email']);
+        prefs.setString("user_id", json['id'].toString());
+        prefs.setString("user_username", _username);
+        prefs.setString("user_email", json['email'].toString());
         main();
       } else {
         setState(() {
