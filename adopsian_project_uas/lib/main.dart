@@ -1,4 +1,6 @@
+import 'package:adopsian_project_uas/screen/Adopt.dart';
 import 'package:adopsian_project_uas/screen/Login.dart';
+import 'package:adopsian_project_uas/screen/Offer.dart';
 import 'package:adopsian_project_uas/screen/browse.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
         'main': (context) => MyApp(),
         'browse': (context) => Browse(),
         'login': (context) => Login(),
+        'offer': (context) => Offer(),
+        'adopt': (context) => Adopt()
         // 'propose': (context) => Propose()
       },
     );
@@ -91,21 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
               currentAccountPicture: CircleAvatar(
                   backgroundImage: NetworkImage("https://i.pravatar.cc/150"))),
           ListTile(
-            title: new Text("Inbox"),
-            leading: new Icon(Icons.inbox),
+            title: new Text("Browse"),
+            leading: new Icon(Icons.search),
+            onTap: (){
+              Navigator.popAndPushNamed(context, 'browse');
+            },
           ),
           ListTile(
-            title: new Text("My Basket "),
-            leading: new Icon(Icons.shopping_basket),
+            title: new Text("Offer "),
+            leading: new Icon(Icons.handshake),
             onTap: (){
-              Navigator.popAndPushNamed(context, 'myBasket');
+              Navigator.popAndPushNamed(context, 'offer');
             }
           ),
           ListTile(
-            title: const Text("Add Recipe"),
-            leading: const Icon(Icons.add_circle),
+            title: const Text("Adopt"),
+            leading: const Icon(Icons.thumb_up),
             onTap: (){
-              Navigator.popAndPushNamed(context, 'addRecipe');
+              Navigator.popAndPushNamed(context, 'adopt');
             }),
             Divider(height: 10),
             ListTile(
