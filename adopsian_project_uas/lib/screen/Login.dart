@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-String _user_id = "";
+String _username = "";
 String _user_password = "";
 String error_login = "";
 
@@ -31,25 +31,20 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   void doLogin() async {
-    //later, we use web service here to check the user id and password
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.setString("user_id", _user_id);
-    // main();
-
     final response = await http.post(
         Uri.parse("https://ubaya.me/flutter/160421039/adoptians/login.php"),
-        body: {'user_id': _user_id, 'user_password': _user_password});
+        body: {'username': _username, 'pass': _user_password});
 
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString("user_id", _user_id);
-        prefs.setString("user_name", json['user_name']);
+        prefs.setString("username", _username);
+        prefs.setString("email", json['email']);
         main();
       } else {
         setState(() {
-          error_login = "Incorrect user or password";
+          error_login = "Incorrect username or password";
         });
       }
     } else {
@@ -78,7 +73,7 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.all(10),
               child: TextField(
                 onChanged: (value) {
-                  _user_id = value;
+                  _username = value;
                 },
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
