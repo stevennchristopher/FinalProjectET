@@ -17,6 +17,8 @@ class MyLogin extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+         colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 142, 203, 232)),
       ),
       home: Login(),
     );
@@ -113,7 +115,7 @@ class _LoginState extends State<Login> {
                         },
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.deepPurple)),
+                                MaterialStateProperty.all(Color.fromARGB(255, 211, 148, 31))),
                         child: Text(
                           'Login',
                           style: TextStyle(color: Colors.white, fontSize: 25),

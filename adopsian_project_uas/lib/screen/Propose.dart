@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:adopsian_project_uas/class/Pet.dart';
+import 'package:adopsian_project_uas/main.dart';
 
 class Propose extends StatefulWidget {
   int petID;
@@ -48,9 +49,9 @@ class _ProposeState extends State<Propose> {
     final response = await http.post(
         Uri.parse("https://ubaya.me/flutter/160421039/adoptians/propose.php"),
         body: {
-          // 'users_id': _title,
+          'users_id': user_id.toString(),
           'pets_id': widget.petID.toString(),
-          'overview': _keterangan,
+          'description': _keterangan,
         });
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
@@ -59,13 +60,19 @@ class _ProposeState extends State<Propose> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Berhasil Melakukan Propose')));
         Navigator.of(context).pop();
-      }
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error')));
-      throw Exception('Failed to read API');
+      } else if (json['result'] == 'duplicate') {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('You have already proposed for this pet!')),
+      );
     }
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to connect to the server.')),
+    );
+    throw Exception('Failed to read API');
   }
+}
 
   @override
   Widget build(BuildContext context) {

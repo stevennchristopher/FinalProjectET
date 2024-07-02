@@ -5,6 +5,7 @@ import 'package:adopsian_project_uas/screen/browse.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+String user_id = "";
 String username_active_user = "";
 String email_active_user = "";
 
@@ -19,7 +20,7 @@ void doLogout() async {
 
 Future<String> checkUser() async {
   final prefs = await SharedPreferences.getInstance();
-  String user_id = prefs.getString("user_id") ?? '';
+  user_id = prefs.getString("user_id") ?? '';
   username_active_user = prefs.getString("user_username") ?? '';
   email_active_user = prefs.getString("user_email") ?? '';
   return user_id;
