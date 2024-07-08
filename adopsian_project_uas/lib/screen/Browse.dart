@@ -5,6 +5,8 @@ import 'package:adopsian_project_uas/class/Pet.dart';
 import 'package:adopsian_project_uas/screen/Propose.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:adopsian_project_uas/main.dart';
+
 class Browse extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -18,7 +20,8 @@ class _BrowseState extends State<Browse> {
 
   Future<String> fetchData() async {
     final response = await http.post(
-        Uri.parse("https://ubaya.me/flutter/160421039/adoptians/browse.php"));
+        Uri.parse("https://ubaya.me/flutter/160421039/adoptians/browse.php"),
+        body: {'id': user_id.toString()});
     if (response.statusCode == 200) {
       return response.body;
     } else {
