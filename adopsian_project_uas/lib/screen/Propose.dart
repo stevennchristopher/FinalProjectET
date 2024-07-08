@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:adopsian_project_uas/class/Pet.dart';
 import 'package:adopsian_project_uas/main.dart';
-import 'package:adopsian_project_uas/screen/Browse.dart';
 
 class Propose extends StatefulWidget {
   int petID;
