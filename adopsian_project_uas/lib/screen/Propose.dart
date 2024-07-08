@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:adopsian_project_uas/class/Pet.dart';
 import 'package:adopsian_project_uas/main.dart';
+import 'package:adopsian_project_uas/screen/Browse.dart';
 
 class Propose extends StatefulWidget {
   int petID;
@@ -59,7 +60,7 @@ class _ProposeState extends State<Propose> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Berhasil Melakukan Propose')));
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
       } else if (json['result'] == 'duplicate') {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

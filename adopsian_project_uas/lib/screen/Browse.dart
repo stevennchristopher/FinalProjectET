@@ -48,6 +48,19 @@ class _BrowseState extends State<Browse> {
     bacaData();
   }
 
+  void navigateToProposePage(int petID) async {
+    bool? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Propose(petID: petID),
+      ),
+    );
+
+    if (result == true) {
+      bacaData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,14 +93,11 @@ class _BrowseState extends State<Browse> {
                           "https://ubaya.me/flutter/160421039/adoptians/images/${Pets[index].id}.jpg"),
                       Text("Jenis: " + Pets[index].jenis),
                       Text("Deskripsi: " + Pets[index].description),
-                      Text("Jumlah pelamar: "), //belumm lengkap
+                      Text("Jumlah pelamar: " + Pets[index].totalProposal.toString()),
                       Text(""),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Propose(petID: Pets[index].id)),
-                          );
+                          navigateToProposePage(Pets[index].id);
                         },
                         child: Text('Propose'),
                       ),
