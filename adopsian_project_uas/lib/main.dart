@@ -80,6 +80,38 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Home"),
       ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(50),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Ini adalah aplikasi Adoptian yang akan memudahkan proses adopsi hewan peliharaan untukmu!",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text("Berikut ini cara menggunakan aplikasinya:"),
+              Text(
+                  "- Disini kamu bisa menawarkan hewan untuk diadopsi melalui halaman Offer."),
+              Text(
+                  "- Disini kamu juga bisa melihat-lihat hewan untuk kamu adopsi pada halaman Browse."),
+              Text(
+                  "- Setelah menemukan hewan yang kamu mau, silahkan mengajukan diri sebagai adopter dengan halaman Propose."),
+              Text(
+                  "- Kamu bisa menambahkan penawaran baru dengan halaman New Offer."),
+              Text(
+                  "- Kamu bisa memeriksa calon-calon pengadopsi melalui halaman Decision"),
+              Text(""),
+              Text("Silahkan temukan hewan favoritmu!"),
+            ],
+          ),
+        ),
+      ),
       drawer:
           myDrawer(), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -98,30 +130,31 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: new Text("Browse"),
             leading: new Icon(Icons.search),
-            onTap: (){
+            onTap: () {
               Navigator.popAndPushNamed(context, 'browse');
             },
           ),
           ListTile(
-            title: new Text("Offer "),
-            leading: new Icon(Icons.handshake),
-            onTap: (){
-              Navigator.popAndPushNamed(context, 'offer');
-            }
-          ),
+              title: new Text("Offer "),
+              leading: new Icon(Icons.handshake),
+              onTap: () {
+                Navigator.popAndPushNamed(context, 'offer');
+              }),
           ListTile(
-            title: const Text("Adopt"),
-            leading: const Icon(Icons.thumb_up),
-            onTap: (){
-              Navigator.popAndPushNamed(context, 'adopt');
-            }),
-            Divider(height: 10),
-            ListTile(
-            title: new Text(username_active_user != "" ? "Logout" : "Login"),
-            leading: new Icon(Icons.login),
-            onTap: (){
-              username_active_user != "" ? doLogout() : Navigator.popAndPushNamed(context, 'login');
-            })
+              title: const Text("Adopt"),
+              leading: const Icon(Icons.thumb_up),
+              onTap: () {
+                Navigator.popAndPushNamed(context, 'adopt');
+              }),
+          Divider(height: 10),
+          ListTile(
+              title: new Text(username_active_user != "" ? "Logout" : "Login"),
+              leading: new Icon(Icons.login),
+              onTap: () {
+                username_active_user != ""
+                    ? doLogout()
+                    : Navigator.popAndPushNamed(context, 'login');
+              })
         ],
       ),
     );

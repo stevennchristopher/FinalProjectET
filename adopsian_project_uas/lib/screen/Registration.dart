@@ -1,18 +1,17 @@
 import 'dart:convert';
 
 import 'package:adopsian_project_uas/main.dart';
-import 'package:adopsian_project_uas/screen/Registration.dart';
+import 'package:adopsian_project_uas/screen/Login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 String _username = "";
+String _email = "";
+String _phone = "";
 String _user_password = "";
-String error_login = "";
-String error_regist = "";
 
-class MyLogin extends StatelessWidget {
+class MyRegist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,35 +21,40 @@ class MyLogin extends StatelessWidget {
         colorScheme:
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 142, 203, 232)),
       ),
-      home: Login(),
+      home: Registration(),
     );
   }
 }
 
-class Login extends StatefulWidget {
+class Registration extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _LoginState();
+    return _RegistState();
   }
 }
 
-class _LoginState extends State<Login> {
-  void doLogin() async {
+class _RegistState extends State<Registration> {
+  void doRegist() async {
     final response = await http.post(
-        Uri.parse("https://ubaya.me/flutter/160421039/adoptians/login.php"),
-        body: {'username': _username, 'pass': _user_password});
+        Uri.parse(
+            "https://ubaya.me/flutter/160421039/adoptians/registration.php"),
+        body: {
+          'username': _username,
+          'email': _email,
+          'phone': _phone,
+          'pass': _user_password
+        });
 
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString("user_id", json['id'].toString());
-        prefs.setString("user_username", _username);
-        prefs.setString("user_email", json['email'].toString());
-        main();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
       } else {
         setState(() {
-          error_login = "Incorrect username or password";
+          error_regist = "Registration failed, please re-check your data.";
         });
       }
     } else {
@@ -62,12 +66,12 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Login'),
+          title: Text('Registration'),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         body: SingleChildScrollView(
             child: Container(
-          height: 310,
+          height: 460,
           margin: EdgeInsets.all(20),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -86,6 +90,30 @@ class _LoginState extends State<Login> {
                     border: OutlineInputBorder(),
                     labelText: 'Username',
                     hintText: 'Enter username here'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                onChanged: (value) {
+                  _email = value;
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
+                    hintText: 'Enter email here'),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                onChanged: (value) {
+                  _phone = value;
+                },
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Phone Number',
+                    hintText: 'Enter phone number here'),
               ),
             ),
             Padding(
@@ -113,36 +141,19 @@ class _LoginState extends State<Login> {
                           borderRadius: BorderRadius.circular(20)),
                       child: ElevatedButton(
                         onPressed: () {
-                          doLogin();
+                          doRegist();
                         },
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 211, 148, 31))),
+                                Color.fromARGB(255, 78, 183, 240))),
                         child: Text(
                           'Login',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
+                          style: TextStyle(color: Colors.black, fontSize: 25),
                         ),
                       ),
                     ),
-                    Divider(
-                      height: 10,
-                      color: Colors.transparent,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Registration()),
-                          );
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 21, 153, 9))),
-                        child: Text(
-                          'Registration',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
-                        ))
+                    Text(""),
+                    Text(error_regist, style: TextStyle(color: Colors.red)),
                   ],
                 )),
           ]),
