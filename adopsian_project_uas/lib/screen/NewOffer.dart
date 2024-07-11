@@ -46,6 +46,12 @@ class _NewOffer extends State<NewOffer> {
                   onChanged: (value) {
                     _name = value;
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Nama hewan harus diisi';
+                    }
+                    return null;
+                  },
                 )),
             Padding(
                 padding: EdgeInsets.all(10),
@@ -113,6 +119,7 @@ class _NewOffer extends State<NewOffer> {
         maxWidth: 400);
     if (image == null) return;
     setState(() {
+      _image = File(image.path);
       prosesFoto();
     });
   }
@@ -125,8 +132,6 @@ class _NewOffer extends State<NewOffer> {
       _imageProses = File(filePath);
       img.Image? temp = img.readJpg(_image!.readAsBytesSync());
       img.Image temp2 = img.copyResize(temp!, width: 480, height: 640);
-      img.drawString(temp2, img.arial_24, 4, 4, 'UAS Flutter',
-          color: img.getColor(250, 100, 100));
       setState(() {
         _imageProses?.writeAsBytesSync(img.writeJpg(temp2));
       });
