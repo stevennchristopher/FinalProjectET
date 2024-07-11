@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 File? _image;
 File? _imageProses;
@@ -34,7 +35,8 @@ class _NewOffer extends State<NewOffer> {
         appBar: AppBar(
           title: Text('New Offer'),
         ),
-        body: Form(
+        body: SingleChildScrollView(
+          child: Form(
           key: _formKey,
           child: Column(children: <Widget>[
             Padding(
@@ -73,6 +75,16 @@ class _NewOffer extends State<NewOffer> {
                     return null;
                   },
                 )),
+                Padding(
+                padding: EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: () {
+                    _pickImage();
+                  },
+                  child: _imageProses != null
+                      ? Image.file(_imageProses!)
+                      : Image.network("https://ubaya.me/blank.jpg"),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
@@ -89,7 +101,36 @@ class _NewOffer extends State<NewOffer> {
               ),
             ),
           ]),
-        ));
+        )));
+  }
+
+    _pickImage() async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+        maxHeight: 400,
+        maxWidth: 400);
+    if (image == null) return;
+    setState(() {
+      prosesFoto();
+    });
+  }
+
+  void prosesFoto() {
+    Future<Directory?> extDir = getTemporaryDirectory();
+    extDir.then((value) {
+      String _timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final String filePath = '${value?.path}/$_timestamp.jpg';
+      _imageProses = File(filePath);
+      img.Image? temp = img.readJpg(_image!.readAsBytesSync());
+      img.Image temp2 = img.copyResize(temp!, width: 480, height: 640);
+      img.drawString(temp2, img.arial_24, 4, 4, 'UAS Flutter',
+          color: img.getColor(250, 100, 100));
+      setState(() {
+        _imageProses?.writeAsBytesSync(img.writeJpg(temp2));
+      });
+    });
   }
 
   void submit() async {
