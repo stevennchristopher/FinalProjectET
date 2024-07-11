@@ -19,16 +19,12 @@ class EditOffer extends StatefulWidget {
 State<EditOffer> createState() => _EditOffer();
 
 class _EditOffer extends State<EditOffer> {
-  late Pet p;
+  Pet? _p;
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _jenisCont = TextEditingController();
   TextEditingController _nameCont = TextEditingController();
   TextEditingController _descCont = TextEditingController();
-
-  String _jenis = "";
-  String _name = "";
-  String _desc = "";
 
   @override
   void initState() {
@@ -51,18 +47,16 @@ class _EditOffer extends State<EditOffer> {
   bacaData() {
     fetchData().then((value) {
       Map json = jsonDecode(value);
-      p = Pet.fromJson(json['data']);
-      setState(() {});
-    });
+      _p = Pet.fromJson(json['data']);
+      setState(() {
+        // _jenis = p!.jenis;
+        // _name = p!.name;
+        // _desc = p!.description;
 
-    setState(() {
-      _jenis = p.jenis;
-      _name = p.name;
-      _desc = p.description;
-
-      _jenisCont.text = p.jenis;
-      _nameCont.text = p.name;
-      _descCont.text = p.description;
+        _jenisCont.text = _p!.jenis;
+        _nameCont.text = _p!.name;
+        _descCont.text = _p!.description;
+      });
     });
   }
 
@@ -79,7 +73,14 @@ class _EditOffer extends State<EditOffer> {
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: 'Nama'),
                   onChanged: (value) {
-                    _name = value;
+                    _p!.name = value;
+                  },
+                  controller: _nameCont,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Nama hewan harus diisi';
+                    }
+                    return null;
                   },
                 )),
             Padding(
@@ -87,8 +88,9 @@ class _EditOffer extends State<EditOffer> {
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: 'Jenis'),
                   onChanged: (value) {
-                    _jenis = value;
+                    _p!.jenis = value;
                   },
+                  controller: _jenisCont,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Jenis hewan harus diisi';
@@ -101,8 +103,9 @@ class _EditOffer extends State<EditOffer> {
                 child: TextFormField(
                   decoration: const InputDecoration(labelText: 'Deskripsi'),
                   onChanged: (value) {
-                    _desc = value;
+                    _p!.description = value;
                   },
+                  controller: _descCont,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Deskripsi hewan harus diisi';
@@ -132,7 +135,11 @@ class _EditOffer extends State<EditOffer> {
   void update() async {
     final response = await http.post(
         Uri.parse("https://ubaya.me/flutter/160421039/updatePet.php"),
-        body: {'jenis': p.jenis, 'name': p.name, 'description': p.description});
+        body: {
+          'jenis': _p!.jenis,
+          'name': _p!.name,
+          'description': _p!.description
+        });
     if (response.statusCode == 200) {
       print(response.body);
       Map json = jsonDecode(response.body);
