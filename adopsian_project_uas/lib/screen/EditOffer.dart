@@ -134,16 +134,25 @@ class _EditOffer extends State<EditOffer> {
 
   void update() async {
     final response = await http.post(
-        Uri.parse("https://ubaya.me/flutter/160421039/updatePet.php"),
+        Uri.parse("https://ubaya.me/flutter/160421039/adoptians/updatePet.php"),
         body: {
           'jenis': _p!.jenis,
           'name': _p!.name,
           'description': _p!.description
         });
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
+
     if (response.statusCode == 200) {
-      print(response.body);
       Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Sukses Mengedit Data')));
+      }
     } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error')));
       throw Exception('Failed to read API');
     }
   }
