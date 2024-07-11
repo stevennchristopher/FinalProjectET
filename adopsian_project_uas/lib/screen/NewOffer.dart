@@ -155,7 +155,6 @@ class _NewOffer extends State<NewOffer> {
             Uri.parse(
                 'https://ubaya.me/flutter/160421039/adoptians/uploadPetImage.php'),
             body: {
-              'id': widget.petID.toString(),
               'image': base64Image,
             });
         if (response2.statusCode == 200) {

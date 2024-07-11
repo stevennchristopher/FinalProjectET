@@ -141,7 +141,7 @@ class _EditOffer extends State<EditOffer> {
           'jenis': _p!.jenis,
           'name': _p!.name,
           'description': _p!.description,
-          'id': _p!.id
+          'id': widget.petID.toString()
         });
     // print('Response status: ${response.statusCode}');
     // print('Response body: ${response.body}');
