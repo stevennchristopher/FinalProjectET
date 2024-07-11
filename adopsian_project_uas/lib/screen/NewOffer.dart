@@ -37,7 +37,7 @@ class _NewOffer extends State<NewOffer> {
           title: Text('New Offer'),
         ),
         body: SingleChildScrollView(
-          child: Form(
+            child: Form(
           key: _formKey,
           child: Column(children: <Widget>[
             Padding(
@@ -82,7 +82,7 @@ class _NewOffer extends State<NewOffer> {
                     return null;
                   },
                 )),
-                Padding(
+            Padding(
                 padding: EdgeInsets.all(10),
                 child: GestureDetector(
                   onTap: () {
@@ -111,7 +111,7 @@ class _NewOffer extends State<NewOffer> {
         )));
   }
 
-    _pickImage() async {
+  _pickImage() async {
     final picker = ImagePicker();
     final image = await picker.pickImage(
         source: ImageSource.gallery,
@@ -146,23 +146,23 @@ class _NewOffer extends State<NewOffer> {
           'jenis': _jenis,
           'name': _name,
           'description': _desc,
-          'users_id':user_id
+          'users_id': user_id
         });
-     if (_imageProses == null) return;
-        List<int> imageBytes = _imageProses!.readAsBytesSync();
-        String base64Image = base64Encode(imageBytes);
-        final response2 = await http.post(
-            Uri.parse(
-                'https://ubaya.me/flutter/160421039/adoptians/uploadPetImage.php'),
-            body: {
-              'image': base64Image,
-            });
-        if (response2.statusCode == 200) {
-          if (!mounted) return;
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(response2.body)));
-          Navigator.of(context).pop();
-        }
+    if (_imageProses == null) return;
+    List<int> imageBytes = _imageProses!.readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
+    final response2 = await http.post(
+        Uri.parse(
+            'https://ubaya.me/flutter/160421039/adoptians/uploadPetImage.php'),
+        body: {
+          'image': base64Image,
+        });
+    if (response2.statusCode == 200) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(response2.body)));
+      Navigator.of(context).pop();
+    }
 
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);

@@ -125,7 +125,7 @@ class _OfferState extends State<Offer> {
                       Image.network(
                           "https://ubaya.me/flutter/160421039/adoptians/images/${Pets[index].id}.jpg"),
                       Text("Jenis: " + Pets[index].jenis),
-                      Text("Status: " + Pets[index].status + " Di Adopsi"),
+                      Text("Status: " + Pets[index].status + " Diadopsi"),
                       Pets[index].adopterName != 'admin'
                           ? Text("Nama Pengadopsi: " + Pets[index].adopterName)
                           : SizedBox(height: 0),
