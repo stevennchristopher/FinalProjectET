@@ -15,6 +15,8 @@ void doLogout() async {
   username_active_user = "";
   email_active_user = "";
   prefs.remove("user_id");
+  prefs.remove("user_username");
+  prefs.remove("user_email");
   main();
 }
 

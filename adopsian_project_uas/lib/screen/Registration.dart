@@ -71,7 +71,7 @@ class _RegistState extends State<Registration> {
         ),
         body: SingleChildScrollView(
             child: Container(
-          height: 460,
+          height: 550,
           margin: EdgeInsets.all(20),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -118,7 +118,6 @@ class _RegistState extends State<Registration> {
             ),
             Padding(
               padding: EdgeInsets.all(10),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
                 onChanged: (value) {
                   _user_password = value;
@@ -147,12 +146,35 @@ class _RegistState extends State<Registration> {
                             backgroundColor: MaterialStateProperty.all(
                                 Color.fromARGB(255, 78, 183, 240))),
                         child: Text(
+                          'Register',
+                          style: TextStyle(color: Colors.black, fontSize: 25),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+            Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 300,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromARGB(255, 78, 183, 240))),
+                        child: Text(
                           'Login',
                           style: TextStyle(color: Colors.black, fontSize: 25),
                         ),
                       ),
                     ),
-                    Text(""),
                     Text(error_regist, style: TextStyle(color: Colors.red)),
                   ],
                 )),

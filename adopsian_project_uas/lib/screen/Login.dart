@@ -59,6 +59,15 @@ class _LoginState extends State<Login> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    error_login = "";
+    String _username = "";
+    String _user_password = "";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -67,7 +76,7 @@ class _LoginState extends State<Login> {
         ),
         body: SingleChildScrollView(
             child: Container(
-          height: 350,
+          height: 370,
           margin: EdgeInsets.all(20),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -142,7 +151,11 @@ class _LoginState extends State<Login> {
                         child: Text(
                           'Registration',
                           style: TextStyle(color: Colors.white, fontSize: 25),
-                        ))
+                        )),
+                    Text(error_login,
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 0, 0),
+                            fontSize: 15))
                   ],
                 )),
           ]),

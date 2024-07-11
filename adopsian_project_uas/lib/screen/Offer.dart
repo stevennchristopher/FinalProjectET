@@ -53,6 +53,19 @@ class _OfferState extends State<Offer> {
     bacaData();
   }
 
+  void navigateToNewOfferPage() async {
+    bool? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewOffer(),
+      ),
+    );
+
+    if (result == true) {
+      bacaData();
+    }
+  }
+
   void navigateToDecisionPage(int petID) async {
     bool? result = await Navigator.push(
       context,
@@ -66,17 +79,10 @@ class _OfferState extends State<Offer> {
     }
   }
 
-  void navigateToEditOfferPage(int petID) async {
-    bool? result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditOffer(petID: petID),
-      ),
-    );
-
-    if (result == true) {
+  Future onGoBack(dynamic value) async {
+    setState(() {
       bacaData();
-    }
+    });
   }
 
   void delete(int petID) async {
@@ -92,9 +98,9 @@ class _OfferState extends State<Offer> {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Successfully deleted pet.')));
-        Navigator.pop(context); // Go back to the previous screen
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Successfully deleted pet.')));
+        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Failed to delete pet: ${json['message']}')));
@@ -112,10 +118,7 @@ class _OfferState extends State<Offer> {
         body: Column(children: <Widget>[
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NewOffer()),
-              );
+              navigateToNewOfferPage();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromARGB(255, 255, 248, 166),
@@ -177,7 +180,13 @@ class _OfferState extends State<Offer> {
                       Pets[index].totalProposal.toString() == '0'
                           ? ElevatedButton(
                               onPressed: () {
-                                navigateToEditOfferPage(Pets[index].id);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditOffer(petID: Pets[index].id),
+                                  ),
+                                ).then(onGoBack);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:

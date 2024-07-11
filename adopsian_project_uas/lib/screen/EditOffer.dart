@@ -36,7 +36,6 @@ class _EditOffer extends State<EditOffer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     bacaData();
   }
@@ -57,10 +56,6 @@ class _EditOffer extends State<EditOffer> {
       Map json = jsonDecode(value);
       _p = Pet.fromJson(json['data']);
       setState(() {
-        // _jenis = p!.jenis;
-        // _name = p!.name;
-        // _desc = p!.description;
-
         _jenisCont.text = _p!.jenis;
         _nameCont.text = _p!.name;
         _descCont.text = _p!.description;
@@ -75,7 +70,7 @@ class _EditOffer extends State<EditOffer> {
           title: Text('Edit Offer'),
         ),
         body: SingleChildScrollView(
-          child: Form(
+            child: Form(
           key: _formKey,
           child: Column(children: <Widget>[
             Padding(
@@ -123,7 +118,7 @@ class _EditOffer extends State<EditOffer> {
                     return null;
                   },
                 )),
-                Padding(
+            Padding(
                 padding: EdgeInsets.all(10),
                 child: GestureDetector(
                   onTap: () {
@@ -156,7 +151,7 @@ class _EditOffer extends State<EditOffer> {
     final picker = ImagePicker();
     final image = await picker.pickImage(
         source: ImageSource.gallery,
-        imageQuality: 50,
+        imageQuality: 100,
         maxHeight: 400,
         maxWidth: 400);
     if (image == null) return;
@@ -173,7 +168,7 @@ class _EditOffer extends State<EditOffer> {
       final String filePath = '${value?.path}/$_timestamp.jpg';
       _imageProses = File(filePath);
       img.Image? temp = img.readJpg(_image!.readAsBytesSync());
-      img.Image temp2 = img.copyResize(temp!, width: 480, height: 640);
+      img.Image temp2 = img.copyResize(temp!, width: 640, height: 480);
       setState(() {
         _imageProses?.writeAsBytesSync(img.writeJpg(temp2));
       });
@@ -190,22 +185,6 @@ class _EditOffer extends State<EditOffer> {
           'id': widget.petID.toString()
         });
 
-    if (_imageProses == null) return;
-    List<int> imageBytes = _imageProses!.readAsBytesSync();
-    String base64Image = base64Encode(imageBytes);
-    final response2 = await http.post(
-        Uri.parse(
-            'https://ubaya.me/flutter/160421039/adoptians/editPetImage.php'),
-        body: {
-          'image': base64Image,
-        });
-    if (response2.statusCode == 200) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(response2.body)));
-      Navigator.of(context).pop();
-    }
-
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
@@ -218,5 +197,20 @@ class _EditOffer extends State<EditOffer> {
           .showSnackBar(SnackBar(content: Text('Error')));
       throw Exception('Failed to read API');
     }
+
+    if (_imageProses == null) return;
+    List<int> imageBytes = _imageProses!.readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
+    final response2 = await http.post(
+        Uri.parse(
+            'https://ubaya.me/flutter/160421039/adoptians/editPetImage.php'),
+        body: {'image': base64Image, 'id': widget.petID.toString()});
+    if (response2.statusCode == 200) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(response2.body)));
+    }
+
+    // Navigator.of(context).pop(true);
   }
 }

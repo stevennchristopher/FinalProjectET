@@ -31,6 +31,14 @@ class _NewOffer extends State<NewOffer> {
   String _desc = "";
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _image = null;
+    _imageProses = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -115,7 +123,7 @@ class _NewOffer extends State<NewOffer> {
     final picker = ImagePicker();
     final image = await picker.pickImage(
         source: ImageSource.gallery,
-        imageQuality: 50,
+        imageQuality: 100,
         maxHeight: 400,
         maxWidth: 400);
     if (image == null) return;
@@ -132,7 +140,7 @@ class _NewOffer extends State<NewOffer> {
       final String filePath = '${value?.path}/$_timestamp.jpg';
       _imageProses = File(filePath);
       img.Image? temp = img.readJpg(_image!.readAsBytesSync());
-      img.Image temp2 = img.copyResize(temp!, width: 480, height: 640);
+      img.Image temp2 = img.copyResize(temp!, width: 640, height: 480);
       setState(() {
         _imageProses?.writeAsBytesSync(img.writeJpg(temp2));
       });
@@ -161,7 +169,6 @@ class _NewOffer extends State<NewOffer> {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(response2.body)));
-      Navigator.of(context).pop();
     }
 
     if (response.statusCode == 200) {
@@ -170,6 +177,7 @@ class _NewOffer extends State<NewOffer> {
         if (!mounted) return;
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
+        Navigator.of(context).pop(true);
       }
     } else {
       ScaffoldMessenger.of(context)
