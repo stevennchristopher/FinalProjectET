@@ -25,6 +25,7 @@ class _EditOffer extends State<EditOffer> {
   TextEditingController _jenisCont = TextEditingController();
   TextEditingController _nameCont = TextEditingController();
   TextEditingController _descCont = TextEditingController();
+  int _id = 0;
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _EditOffer extends State<EditOffer> {
         _jenisCont.text = _p!.jenis;
         _nameCont.text = _p!.name;
         _descCont.text = _p!.description;
+        _id = _p!.id;
       });
     });
   }
@@ -138,7 +140,8 @@ class _EditOffer extends State<EditOffer> {
         body: {
           'jenis': _p!.jenis,
           'name': _p!.name,
-          'description': _p!.description
+          'description': _p!.description,
+          'id': _p!.id
         });
     // print('Response status: ${response.statusCode}');
     // print('Response body: ${response.body}');

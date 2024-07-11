@@ -8,6 +8,7 @@ import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
+late int petID;
 File? _image;
 File? _imageProses;
 
@@ -147,6 +148,23 @@ class _NewOffer extends State<NewOffer> {
           'description': _desc,
           'users_id':user_id
         });
+     if (_imageProses == null) return;
+        List<int> imageBytes = _imageProses!.readAsBytesSync();
+        String base64Image = base64Encode(imageBytes);
+        final response2 = await http.post(
+            Uri.parse(
+                'https://ubaya.me/flutter/160421039/adoptians/uploadPetImage.php'),
+            body: {
+              'id': widget.petID.toString(),
+              'image': base64Image,
+            });
+        if (response2.statusCode == 200) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(response2.body)));
+          Navigator.of(context).pop();
+        }
+
     if (response.statusCode == 200) {
       Map json = jsonDecode(response.body);
       if (json['result'] == 'success') {
