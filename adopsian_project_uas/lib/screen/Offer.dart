@@ -79,7 +79,31 @@ class _OfferState extends State<Offer> {
     }
   }
 
-  void delete(int petID) async {}
+  void delete(int petID) async {
+    print('Deleting pet with ID: ${petID}');
+    final response = await http.post(
+        Uri.parse("https://ubaya.me/flutter/160421039/adoptians/deletePet.php"),
+        body: {'id': petID.toString()});
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Successfully deleted pet.')));
+        Navigator.pop(context); // Go back to the previous screen
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Failed to delete pet: ${json['message']}')));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${response.statusCode}')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
