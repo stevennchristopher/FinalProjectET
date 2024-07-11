@@ -52,7 +52,7 @@ class _AdoptState extends State<Adopt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Browse Pet')),
+        appBar: AppBar(title: const Text('Adopt Pet')),
         body: ListView(children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height,
@@ -82,6 +82,11 @@ class _AdoptState extends State<Adopt> {
                       Text("Jenis: " + Pets[index].jenis),
                       Text("Deskripsi: " + Pets[index].description),
                       Text("Status: " + Pets[index].status),
+                      Text(""),
+                      Text(""),
+                      Text(""),
+                      Text(""),
+                      Text(""),
                     ],
                   ),
                 ),

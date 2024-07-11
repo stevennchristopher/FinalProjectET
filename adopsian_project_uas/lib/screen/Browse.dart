@@ -87,7 +87,8 @@ class _BrowseState extends State<Browse> {
               children: <Widget>[
                 ListTile(
                   leading: Icon(Icons.pets, size: 30),
-                  title: Text("Nama: " + Pets[index].name, style: const TextStyle(fontSize: 20)),
+                  title: Text("Nama: " + Pets[index].name,
+                      style: const TextStyle(fontSize: 20)),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -96,7 +97,8 @@ class _BrowseState extends State<Browse> {
                           "https://ubaya.me/flutter/160421039/adoptians/images/${Pets[index].id}.jpg"),
                       Text("Jenis: " + Pets[index].jenis),
                       Text("Deskripsi: " + Pets[index].description),
-                      Text("Jumlah pelamar: " + Pets[index].totalProposal.toString()),
+                      Text("Jumlah pelamar: " +
+                          Pets[index].totalProposal.toString()),
                       Text(""),
                       ElevatedButton(
                         onPressed: () {
@@ -104,6 +106,10 @@ class _BrowseState extends State<Browse> {
                         },
                         child: Text('Propose'),
                       ),
+                      Text(""),
+                      Text(""),
+                      Text(""),
+                      Text(""),
                     ],
                   ),
                 ),
